@@ -1,0 +1,32 @@
+# this is comment
+server:
+  port: 8085
+spring:
+  application:
+    name: Authorization
+  jmx:
+    default-domain: JagguSpringBootAuthApp
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://${MYSQL_HOST:localhost}:3306/zc_auth"
+    username: admin
+    password: The@1234
+  jpa:
+    show-sql: true # if true sql statement logged to console.
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL8Dialect
+      ddl-auto: none #do not change
+logging:
+  file: logs\auth\JagguSpringBootAuthAppDev.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,configprops,env,logfile,loggers,metrics,httptrace
+    jmx:
+      domain: JagguSpringBootAuthApp
+      unique-names: true
+  health:
+    ldap:
+      enabled: false
