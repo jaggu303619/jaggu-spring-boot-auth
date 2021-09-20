@@ -12,11 +12,12 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+
+import com.jaggu.spring.boot.auth.service.JagguUserDetailsService;
 
 @Configuration
 @EnableAuthorizationServer
@@ -25,6 +26,12 @@ public class JagguAuthorizationServerConfigurerAdapter extends AuthorizationServ
 	@Autowired
 	@Qualifier("authenticationManagerBean")
 	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private JagguTokenEnhancer jagguTokenEnhancer;
+	
+	@Autowired
+	private JagguUserDetailsService jagguUserDetailsService;	
 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -44,9 +51,9 @@ public class JagguAuthorizationServerConfigurerAdapter extends AuthorizationServ
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		final TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
+		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jagguTokenEnhancer, accessTokenConverter()));
 		endpoints.tokenStore(tokenStore()).tokenEnhancer(tokenEnhancerChain)
-				.authenticationManager(authenticationManager);
+				.authenticationManager(authenticationManager).userDetailsService(jagguUserDetailsService);
 	}
 
 	@Bean
@@ -59,11 +66,6 @@ public class JagguAuthorizationServerConfigurerAdapter extends AuthorizationServ
 		final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
 		converter.setSigningKey("ZeroC@de21V3.5");
 		return converter;
-	}
-
-	@Bean
-	public TokenEnhancer tokenEnhancer() {
-		return new JagguTokenEnhancer();
 	}
 
 	@Bean

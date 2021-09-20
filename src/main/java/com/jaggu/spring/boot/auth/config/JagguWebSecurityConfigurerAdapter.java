@@ -5,21 +5,25 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-
 import com.jaggu.spring.boot.auth.service.JagguDaoAuthenticationProvider;
 import com.jaggu.spring.boot.auth.service.JagguUserDetailsService;
 
 @Configuration
 public class JagguWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+
+	// https://javadeveloperzone.com/spring-boot/spring-security-oauth-2-0-authentication-server/
+	@Autowired
+	private JagguPasswordEncoder jagguPasswordEncoder;
+	
+	@Autowired
+	private JagguUserDetailsService jagguUserDetailsService;	
 
 	@Autowired
 	public JagguWebSecurityConfigurerAdapter() {
@@ -29,7 +33,7 @@ public class JagguWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth)
 			throws Exception {
-		auth.authenticationProvider(zerocodeDaoAuthenticationProvider(null));
+		auth.authenticationProvider(jagguDaoAuthenticationProvider());
 	}
 
 	@Override
@@ -38,21 +42,11 @@ public class JagguWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
 	}
 
 	@Bean
-	public DaoAuthenticationProvider zerocodeDaoAuthenticationProvider(JagguPasswordEncoder zerocodePasswordEncoder) {
-		DaoAuthenticationProvider bean = new JagguDaoAuthenticationProvider();
-		bean.setUserDetailsService(getZcUserDetailsService());
-		bean.setPasswordEncoder(zerocodePasswordEncoder);
+	public JagguDaoAuthenticationProvider jagguDaoAuthenticationProvider() {
+		JagguDaoAuthenticationProvider bean = new JagguDaoAuthenticationProvider();
+		bean.setUserDetailsService(jagguUserDetailsService);
+		bean.setPasswordEncoder(jagguPasswordEncoder);
 		return bean;
-	}
-
-	@Bean
-	public UserDetailsService getZcUserDetailsService() {
-		return new JagguUserDetailsService();
-	}
-
-	@Bean
-	public JagguPasswordEncoder userPasswordEncoder() {
-		return new JagguPasswordEncoder();
 	}
 
 	@Override

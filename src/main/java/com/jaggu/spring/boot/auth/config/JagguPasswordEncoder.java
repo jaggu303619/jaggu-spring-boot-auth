@@ -6,7 +6,9 @@ import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class JagguPasswordEncoder implements PasswordEncoder {
 
 	private static final String SECRET = "9d40afd767c25d02af01bcb5c95689aa";

@@ -12,10 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.jaggu.spring.boot.auth.model.ZerocodeUser;
 import com.jaggu.spring.boot.auth.repository.JagguUserRepository;
-
 import java.util.Arrays;
 
-@Service("userService")
+@Service
 public class JagguUserDetailsService implements UserDetailsService {
 
 	private static final Logger log = LoggerFactory.getLogger(JagguUserDetailsService.class);
