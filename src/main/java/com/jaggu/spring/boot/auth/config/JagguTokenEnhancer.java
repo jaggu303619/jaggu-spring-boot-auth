@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 
 import com.jaggu.spring.boot.auth.model.ZerocodeUser;
 
-public class ZerocodeTokenEnhancer implements TokenEnhancer {
+public class JagguTokenEnhancer implements TokenEnhancer {
 
 	@Override
 	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {

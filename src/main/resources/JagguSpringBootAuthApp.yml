@@ -8,7 +8,7 @@ spring:
     default-domain: JagguSpringBootAuthApp
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://${MYSQL_HOST:localhost}:3306/zc_auth"
+    url: "jdbc:mysql://${MYSQL_HOST:localhost}:3306/jaggu_auth"
     username: admin
     password: The@1234
   jpa:
@@ -17,7 +17,8 @@ spring:
       dialect: org.hibernate.dialect.MySQL8Dialect
       ddl-auto: none #do not change
 logging:
-  file: logs\auth\JagguSpringBootAuthAppDev.log
+  file: 
+    name: logs/auth/JagguSpringBootAuthAppDev.log
 
 management:
   endpoints:

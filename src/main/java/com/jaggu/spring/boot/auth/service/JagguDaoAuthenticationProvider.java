@@ -1,4 +1,4 @@
-package com.jaggu.spring.boot.auth.config.service;
+package com.jaggu.spring.boot.auth.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @Slf4j
-public class ZerocodeDaoAuthenticationProvider extends DaoAuthenticationProvider {
+public class JagguDaoAuthenticationProvider extends DaoAuthenticationProvider {
 	
 	@Autowired
 	private SessionHistoryService zcLogSessionHistoryService;
@@ -21,7 +21,6 @@ public class ZerocodeDaoAuthenticationProvider extends DaoAuthenticationProvider
 		String name = authentication.getName();
 		String password = authentication.getCredentials().toString();
 		UserDetails userDetails = null;
-
 		log.info("authenticate user [{}] with Zerocode", name);
 		try {
 			userDetails = getUserDetailsService().loadUserByUsername(name);

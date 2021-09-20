@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include
+            resource="org/springframework/boot/logging/logback/base.xml" />
+    <property name="LOGS" value="/logs" />
+
+    <appender name="FILE-DIVISION"
+              class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>logFolder</key>
+            <defaultValue>NOTFOUND</defaultValue>
+        </discriminator>
+
+        <sift>
+
+            <appender name="RollingFile-${logFileName}"
+                      class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${logFolder}/ProcessResults.log</file>
+                <encoder
+                        class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                    <Pattern>%d %m%n</Pattern> <!-- %p %C{1.} [%t] -->
+                </encoder>
+
+                <rollingPolicy
+                        class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <fileNamePattern>${logFolder}/archived/ProcessedLogFile.%d{yyyy-MM-dd}.%i.gz
+                    </fileNamePattern>
+                    <timeBasedFileNamingAndTriggeringPolicy
+                            class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                        <maxFileSize>10MB</maxFileSize>
+                    </timeBasedFileNamingAndTriggeringPolicy>
+                </rollingPolicy>
+            </appender>
+
+        </sift>
+    </appender>
+    <logger name="com.masa.pts" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </logger>
+    <logger name="fileProcessLog" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE-DIVISION" />
+    </logger>
+</configuration>

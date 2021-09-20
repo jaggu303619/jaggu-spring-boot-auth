@@ -7,10 +7,10 @@ import java.security.SecureRandom;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class ZerocodePasswordEncoder implements PasswordEncoder {
+public class JagguPasswordEncoder implements PasswordEncoder {
 
 	private static final String SECRET = "9d40afd767c25d02af01bcb5c95689aa";
-	private static final byte[] SALT = ZerocodePasswordEncoder.hexStringToByteArray(SECRET);
+	private static final byte[] SALT = JagguPasswordEncoder.hexStringToByteArray(SECRET);
 
 	@Override
 	public String encode(CharSequence password) {
@@ -59,7 +59,7 @@ public class ZerocodePasswordEncoder implements PasswordEncoder {
 
 	public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchProviderException {
 		System.out.println(secretGenerator());
-		System.out.println(new ZerocodePasswordEncoder().encode("123123"));
+		System.out.println(new JagguPasswordEncoder().encode("123123"));
 	}
 
 }

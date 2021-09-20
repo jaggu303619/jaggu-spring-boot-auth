@@ -15,14 +15,14 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import com.jaggu.spring.boot.auth.config.service.ZerocodeDaoAuthenticationProvider;
-import com.jaggu.spring.boot.auth.config.service.ZerocodeUserDetailsService;
+import com.jaggu.spring.boot.auth.service.JagguDaoAuthenticationProvider;
+import com.jaggu.spring.boot.auth.service.JagguUserDetailsService;
 
 @Configuration
-public class ZerocodeWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+public class JagguWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	public ZerocodeWebSecurityConfigurerAdapter() {
+	public JagguWebSecurityConfigurerAdapter() {
 		super();
 	}
 
@@ -38,8 +38,8 @@ public class ZerocodeWebSecurityConfigurerAdapter extends WebSecurityConfigurerA
 	}
 
 	@Bean
-	public DaoAuthenticationProvider zerocodeDaoAuthenticationProvider(ZerocodePasswordEncoder zerocodePasswordEncoder) {
-		DaoAuthenticationProvider bean = new ZerocodeDaoAuthenticationProvider();
+	public DaoAuthenticationProvider zerocodeDaoAuthenticationProvider(JagguPasswordEncoder zerocodePasswordEncoder) {
+		DaoAuthenticationProvider bean = new JagguDaoAuthenticationProvider();
 		bean.setUserDetailsService(getZcUserDetailsService());
 		bean.setPasswordEncoder(zerocodePasswordEncoder);
 		return bean;
@@ -47,12 +47,12 @@ public class ZerocodeWebSecurityConfigurerAdapter extends WebSecurityConfigurerA
 
 	@Bean
 	public UserDetailsService getZcUserDetailsService() {
-		return new ZerocodeUserDetailsService();
+		return new JagguUserDetailsService();
 	}
 
 	@Bean
-	public ZerocodePasswordEncoder userPasswordEncoder() {
-		return new ZerocodePasswordEncoder();
+	public JagguPasswordEncoder userPasswordEncoder() {
+		return new JagguPasswordEncoder();
 	}
 
 	@Override

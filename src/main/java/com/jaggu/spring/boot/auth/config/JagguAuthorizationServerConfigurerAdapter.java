@@ -20,7 +20,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 @Configuration
 @EnableAuthorizationServer
-public class ZerocodeAuthorizationServerConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
+public class JagguAuthorizationServerConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
 
 	@Autowired
 	@Qualifier("authenticationManagerBean")
@@ -33,7 +33,8 @@ public class ZerocodeAuthorizationServerConfigurerAdapter extends AuthorizationS
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient("zc-developer").secret("{noop}Zer@codE")
+		clients.inMemory().withClient("jaggu_auth").secret("{noop}J@ggUautH")
+				// Authorization : Basic amFnZ3VfYXV0aDpKQGdnVWF1dEg=
 				.authorizedGrantTypes("password", "authorization_code", "refresh_token", "client_credentials")
 				.scopes("all").accessTokenValiditySeconds(3600) // 1 hour
 				.refreshTokenValiditySeconds(86400) // 24 hours //2592000) // 30 days
@@ -62,7 +63,7 @@ public class ZerocodeAuthorizationServerConfigurerAdapter extends AuthorizationS
 
 	@Bean
 	public TokenEnhancer tokenEnhancer() {
-		return new ZerocodeTokenEnhancer();
+		return new JagguTokenEnhancer();
 	}
 
 	@Bean

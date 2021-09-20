@@ -1,4 +1,4 @@
-package com.jaggu.spring.boot.auth.config.service;
+package com.jaggu.spring.boot.auth.service;
 
 import org.springframework.stereotype.Service;
 
